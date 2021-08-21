@@ -22,9 +22,9 @@ It is uncontroversial to say that the ongoing COVID-19 pandemic has changed the 
 * Add a variable SESSION_SECRET and assign it to anything for instance:
 	* SECRET=To Be Filled
 	* EMAIL=fightagainstcovidproject@gmail.com
-	* PASSWORD="PLEASE GET PASSWORD FROM DISCORD CHANNEL"
+	* PASSWORD=Please contact the developers
 	* GEOCODE_PROVIDER=google
-	* GOOGLE_API_KEY="PLEASE GET KEY FROM DISCORD CHANNEL"
+	* GOOGLE_API_KEY=Please contact the developers
 * Make sure that your Mongo Server is up and running on your local host.
 * Right now, we are using localhost mongo but we will be using the db. We can also use MONGO_URL in .env file. Then the file will the url mentioned up there for mongo.
 * To Start the app, run :
