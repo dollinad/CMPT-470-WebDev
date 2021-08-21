@@ -1,5 +1,13 @@
 
 # Fight Againt COVID:
+
+## Authors and Developers:
+* Akansha Vaish
+* Bob Tian 
+* Danica Walton
+* Dollina Dodani
+* Nicholas Tin
+
 ## Basic Idea:
 It is uncontroversial to say that the ongoing COVID-19 pandemic has changed the way that our society functions. As COVID-19 continues to soar globally, only a few countries have the infrastructure to take charge of such a crisis. Some countries have larger and robust health care systems, and yet, some are unable to supply basic medical resources such as hospital beds, oxygen cylinders, Personal Protective Equipment (PPE), blood, and plasma for donation. 
 
