@@ -1,0 +1,84 @@
+<%- include('./partials/header.ejs') %>
+<div class="overlay"></div>
+    <main class="main-wrapper active">
+		<section class="signin-section">
+			<div class="container-fluid">
+				<div class="title-wrapper pt-30">
+					<div class="row align-items-center">
+						<div class="col-md-12">
+							<div class="title mb-30">
+								<center><h2>Register</h2></center>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row g-0 auth-row">
+					<div class="col-lg-6">
+						<div class="auth-cover-wrapper bg-primary-100">
+							<div class="auth-cover">
+								<div class="title text-center">
+									<h1 class="text-primary mb-10">Get Started</h1>
+									<p class="text-medium">
+										Register with a new Account
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="signin-wrapper">
+							<div class="form-wrapper">
+								<form class="user" action="/register" method='POST'>
+									<div class="row">
+										<div class="col-12">
+											<div class="input-style-1">
+												<label>Name</label>
+												<input type="text" class="form-control form-control-user" id="name" placeholder="Enter Name" name="name" required>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="input-style-1">
+												<label>User Name</label>
+												<input type="text" class="form-control form-control-user" id="username" placeholder="Enter Username" name="username" required>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="input-style-1">
+												<label>Email</label>
+												<input type="text" class="form-control form-control-user" id="email" aria-describedby="emailHelp" placeholder="Enter Email" name="email" required>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="input-style-1">
+												<label>Password</label>
+												<input type="password" class="form-control form-control-user" id="password" placeholder="Password" name="password" required>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="input-style-1">
+												<label>Password</label>
+												<input type="password" class="form-control form-control-user" id="password2" placeholder="Re-enter Password" name="password2" required>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="button-group d-flex justify-content-center flex-wrap">
+												<button type="submit" class="main-btn primary-btn btn-hover w-100 text-center">Register</button>
+											</div>
+										</div>
+									</div>
+								</form>
+								<div class="singin-option pt-40">
+									<p class="text-sm text-medium text-dark text-center">
+										Already have an account?
+										<a href="/login">Sign In</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+</div>
+<%- include('./partials/footer.ejs') %>

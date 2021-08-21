@@ -1,0 +1,189 @@
+<link rel="stylesheet" href="/stylesheets/comment_style.css" type="text/css">
+<%- include('./partials/header.ejs') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<main class="main-wrapper active">
+    <center>
+        <br>
+        <h3><%= center.site %></h3><br>
+        <h4><%= center.location.formattedAddress %></h4><br>
+        <h5>Added on: <%= center.createdAt %></h5><br>
+    </center>
+    <center>
+        <h4>Resources available:</h4><br>
+        <table class="table container text-center">
+            <thead>
+                <tr>
+                    <th><h6>Resource Type</h6></th>
+                    <th><h6>Name</h6></th>
+                    <th><h6>Quantity</h6></th>
+                    <% if (user.verifiedUser) { %>
+                        <th><h6>Action</h6></th>
+                    <% } %> 
+                </tr>
+            </thead>
+            <tbody>
+                <% center.resource.forEach(function(r) {  %>
+                    <tr>
+                        <td class="min-width">
+                            <div class="lead-text">
+                                <p><%= r.type%></p>
+                            </div>
+                        </td>
+                        <td class="min-width">
+                            <div class="lead-text">
+                                <p><%= r.name%></p>
+                            </div>
+                        </td>
+                        <td class="min-width">
+                            <div class="lead-text">
+                                <p><%= r.qty%></p>
+                            </div>
+                        </td>    
+                        <% if (user.verifiedUser) { %>
+                            <td class="min-width">
+                                <div class="lead-text">
+                                    <p>
+                                        <br><a href ="/centers/edit/<%= center._id %>/<%= r._id %>" onclick="editClick()"><button class="main-btn primary-btn rounded-full btn-hover">Edit Resource</button></a>
+                                    </p>
+                                </div>
+                            </td>
+                        <% } %>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-2" data-toggle="tooltip" title="This Resource was helpful">
+                <button style="display: inline-block;" id="like-btn" class="main-btn primary-btn-outline rounded-full btn-hover" onclick= "Like()"> <i class="far fa-thumbs-up"></i></button><br><br>
+            </div>
+            <div class="col-2" data-toggle="tooltip" title="This Resource was not helpful">
+                <button style="display: inline-block;" id ="unlike-btn" class="main-btn primary-btn-outline rounded-full btn-hover" onclick= "Unlike()"> <i class="far fa-thumbs-down"></i></button><br><br>
+            </div>
+            <div class="col-4"></div>
+        </div>
+        
+        <% if(total_likes === 1) { %>
+            <h5><%= total_likes %> Person found this resource helpful.</h5><br>
+        <% } else { %> 
+            <h5><%= total_likes %> People found this resource helpful.</h5><br>
+        <% } %> 
+        <br>
+        
+    </center>
+    <div>
+        <div class="d-flex justify-content-center row">
+            <div class="d-flex flex-column col-md-8">
+                <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
+                    <% if(author.profilePic === "") { %> 
+                        <div class="profile-image"><img class="rounded-circle" src="/images/empty_profile_pic.png" width="70"></div>
+                    <% } else { %> 
+                        <div class="profile-image"><img class="rounded-circle" src="/documents/<%= author.profilePic %>" width="70"></div>
+                    <% } %> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="d-flex flex-column ml-3">
+                        <div class="d-flex flex-row post-title">
+                            <h5>Posted by <a style="color:rgb(122, 132, 223)" href="/user/profile/<%= author.username %> "><%= author.name %></a> </h5>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <div class="coment-bottom bg-white p-2 px-4">
+                    <p style='margin-left: 5%;font-weight: bold;'>Leave a Review</p>
+                    <form class="main_post" method="POST" action='/centers/view?id=<%=center._id%>'>
+                        <div class="form-field">
+                            <label for="title">Title</label><br/>
+                            <input class="input" id="title" name="title" type="title" value="" />
+                        </div>
+                        <div class="form-field">
+                            <label for="message">Message</label><br/>
+                            <textarea class="input" id="message" name="message" rows="4" autofocus></textarea>
+                        </div>
+                        <div class="form-actions">
+                            </br>
+                            <button type="submit" class="btn btn-primary">Comment</button>
+                        </div>
+                    </form>
+                    <p style='margin-left: 2%;font-weight: bold;'></br>Previous Reviews</p>
+                            <% reviews.forEach(function(review){ %>
+                                <div class="comment-thread">
+                                    <div class="comment" id=<%= review.id %>>
+                                        <a href="#comment-1" class="comment-border-link">
+                                            <span class="sr-only">Jump to comment-1</span>
+                                        </a>
+                                        <div class="comment-heading">
+                                            <div class="comment-info">
+                                                <p style='color:royalblue;font-weight: bold;'><%= review.title %></p>
+                                                <a href="#" class="comment-author"><%= review.user %></a>
+                                                    <p class="m-0">
+                                                        <%= review.date %>
+                                                    </p>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="comment-body">
+                                            <p>
+                                                </br>
+                                                <%= review.text%>
+                                            </p>
+                                            <div class="replies">
+                                                <%if (review.replies.length > 0) { %>
+                                                    <% Object.keys(review.replies).forEach(function(prop) { %>
+                                                        <div class="comment-heading">
+                                                            <div class="comment-info">
+                                                                <a href="#" class="comment-author"></br><%- review.replies[prop].user %></a>
+                                                                <p>
+                                                                    <%= review.replies[prop].text_reply%>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    <% }); %>
+                                                <% } %>
+                                    </div>
+                                    
+                                    <form method="POST" action='/centers/view?id=<%=center._id%>'>
+                                        <div class="form-field">
+                                            </br>
+                                            <input style='width: 100%;' class="input" name=<%= review._id %> id="testID" type="reply" value="" />
+                                            <div class="form-actions">
+                                                </br>
+                                                <button type="submit" class="btn btn-secondary btn-sm">Reply</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    function Like(){
+        $.ajax({
+                    method: 'post',
+                    url: '/centers/'+"<%= center._id %>",
+                    data: {_id:"<%= center._id %>", id: "<%= center.id %>", user:"<%=user.username%>", action: "like"},
+                    success: function(data)
+                    {
+                        //window.alert(data)
+                        window.location.reload();
+                    }
+                })
+    }
+    function Unlike(){
+        $.ajax({
+                    method: 'post',
+                    url: '/centers/'+"<%= center._id %>",
+                    data: {id:"<%= center._id %>", id: "<%= center.id %>", user:"<%=user.username%>", action: "unlike"},
+                    success: function(data)
+                    {
+                        //window.alert(data)
+                        window.location.reload();
+                    }
+                })
+    }
+</script>
+<%- include('./partials/footer.ejs') %>

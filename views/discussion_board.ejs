@@ -1,0 +1,74 @@
+<link rel="stylesheet" href="stylesheets/comment_style.css">
+<%- include('./partials/header.ejs') %>
+    <center><h2>Welcome to the forum <%= user.name %></h2></center>
+    <form class="main_post" method="POST" action='/discussion_board'>
+        <div class="form-field">
+            <label for="title">Title</label><br/>
+            <input class="input" id="title" name="title" type="title" value="" />
+        </div>
+        <div class="form-field">
+            <label for="message">Message</label><br/>
+            <textarea class="input" id="message" name="message" rows="4" autofocus></textarea>
+        </div>
+        <div class="form-actions">
+            </br>
+            <button type="submit" class="btn btn-primary">Post</button>
+        </div>
+    </form>
+    </br></br>
+
+    <p style='margin-left: 2%;font-weight: bold;'></br>Previous Posts</p>
+    
+    <% comments.forEach(function(comment){ %>
+        <div class="comment-thread">
+            <div class="comment" id=<%= comment.id %>>
+                <a href="#comment-1" class="comment-border-link">
+                    <span class="sr-only">Jump to comment-1</span>
+                </a>
+                <div class="comment-heading">
+                    <div class="comment-info">
+                        <p style='color:royalblue;font-weight: bold;'><%= comment.title %></p>
+                        <a href="#" class="comment-author"><%= comment.user %></a>
+                            <p class="m-0">
+                                <%= comment.date %>
+                            </p>
+                    </div>
+                </div>
+
+                <div class="comment-body">
+                    <p>
+                        </br>
+                        <%= comment.text%>
+                    </p>
+                    <div class="replies">
+                        <%if (comment.replies.length > 0) { %>
+                            <% Object.keys(comment.replies).forEach(function(prop) { %>
+                                <div class="comment-heading">
+                                    <div class="comment-info">
+                                        <a href="#" class="comment-author"></br><%- comment.replies[prop].user %></a>
+                                        <p>
+                                            <%= comment.replies[prop].text_reply%>
+                                        </p>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        <% } %>
+                    </div>
+                    
+                    <form method="POST" action='/discussion_board'>
+                        <div class="form-field">
+                            </br>
+                            <input style='width: 100%;' class="input" name=<%= comment._id %> id="testID" type="reply" value="" />
+                            <div class="form-actions">
+                                </br>
+                                <button type="submit" class="btn btn-secondary btn-sm">Reply</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <% }); %>
+        
+    
+<%- include('./partials/footer.ejs') %>

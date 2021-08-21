@@ -1,0 +1,64 @@
+<%- include('./partials/header.ejs') %>
+<div id ="map"></div>
+<script>
+
+    function initMap()
+  {
+    var position = { lat: 49.283, lng: -122.793}
+    var map = new google.maps.Map(document.getElementById("map"), {
+        center: position,
+        zoom: 15,
+    });  
+
+    if(navigator.geolocation)
+    {
+      navigator.geolocation.getCurrentPosition(function(position)
+      {
+        position = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+        map.setCenter(position)
+      })
+    }
+
+    "<% centers.forEach(function(c) { %>"
+      var coord= {lat:parseFloat("<%=c.location.coordinates[1]%>"), lng: parseFloat("<%=c.location.coordinates[0]%>")}
+      var site = "<%=c.site%>"
+      var msg = "<h1>"+site+"</h1>"
+
+      "<% if(c.resource.length == 0) { %>"
+        msg += "No resource available"
+        "<% } %>"
+      
+        "<% c.resource.forEach(function(r) { %>"
+      msg+= "type: <b>"+"<%=r.type%>"+ "</b> Name: <b>"+"<%=r.name%>"+ "</b> Quantity: <b>"+"<%=r.qty%>" + "</b><br>"
+      "<% }); %>"
+
+      addMarker(coord,site,msg)
+
+    "<% }); %>"
+      
+    function addMarker(coords,site,msg)
+    {
+      var marker = new google.maps.Marker({
+        position: coords,
+        map,
+        title: site
+      })
+
+      var infowindow = new google.maps.InfoWindow({
+        content: msg,
+      });
+      marker.addListener('click',function()
+      {
+        infowindow.open(map,marker);
+      })
+      }
+  }
+</script>
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-PLoOho9H7PV3R7vtsAWA4aarqfkDzeQ&callback=initMap&libraries=&v=weekly"
+      async
+    ></script>
+<%- include('./partials/footer.ejs') %>

@@ -1,0 +1,50 @@
+<%- include('./partials/header.ejs') %>
+<a href ="/centers"><button>Back</button></a><br>
+<main class="main-wrapper active">
+    <center>
+        <br>
+        <h3><%= center.site %></h3><br>
+        <h4><%= center.location.formattedAddress %></h4><br>
+        <h5>Added on: <%= center.createdAt %></h5><br>
+        <h4>Edit Resource:</h4><br>
+        <form action="/centers/edit/<%= center._id %>/<%= resource._id %>" method="post">
+            <table class="table container">
+                <thead>
+                    <tr>
+                        <th><h6>Resource Type</h6></th>
+                        <th><h6>Name</h6></th>
+                        <th><h6>Quantity</h6></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="min-width">
+                            <div class="lead-text">
+                                <p><%= resource.type%></p>
+                            </div>
+                        </td>
+                        <td class="min-width">
+                            <div class="lead-text">
+                                <p>
+                                    <input type="text" id="name" name="name" value=<%= resource.name%>><br>
+                                </p>
+                            </div>
+                        </td>
+                        <td class="min-width">
+                            <div class="lead-text">
+                                <p>
+                                    <input type="number" id="qty" name="qty" value=<%= resource.qty%>><br>
+                                </p>
+                            </div>
+                        </td>                     
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <input type = "submit" value = "Save">
+        </form>
+    </center>
+</main>
+
+
+<%- include('./partials/footer.ejs') %>

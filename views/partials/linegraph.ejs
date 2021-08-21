@@ -1,0 +1,72 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<center>
+    <h2>Cumulative: <%=key.cumulative%></h2>
+</center>
+<div class="chart-container">
+    <canvas id="myChart"></canvas>
+    <p>Updated data from:https://opencovid.ca/</p>
+</div>
+
+<script>
+    var ctx = document.getElementById('myChart');
+    var data = []
+    var label = [] 
+    "<% data.forEach(function(d) { %>"
+    data.push(parseInt("<%=d%>"))
+    "<% }) %>"
+
+    "<% label.forEach(function(l) { %>"
+    label.push("<%=l%>")
+    "<% }) %>"
+
+    var myChart = new Chart(ctx, {
+        type: "<%=chart%>",
+        data: {
+            labels: label,
+            datasets: [{
+                label: "<%=graphTitle%>",
+                data: data,
+                backgroundColor: [
+                    'rgb(106, 90, 205)',
+                    'rgb(238, 130, 238)',
+                ],
+                borderColor: [
+                    'rgb(106, 90, 205)',
+                    'rgb(238, 130, 238)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales:{
+                x:{
+                    display: true,
+                    grid:{
+                        display:false
+                    },
+                    padding: {top: 20, left: 0, right: 0, bottom: 0}
+                },
+                y:{
+                    display: true,
+                    grid:{
+                        display:false
+                    },
+                    padding: {top: 20, left: 0, right: 0, bottom: 0}
+                }
+            },
+            animation: {
+                duration: 3000,
+                easing: 'linear',
+            },
+            plugins:{
+                legend:{
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    text: "<%=graphTitle%>",
+                },
+            }
+        }
+    });
+    </script>

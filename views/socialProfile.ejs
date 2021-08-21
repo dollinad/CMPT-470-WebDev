@@ -1,0 +1,80 @@
+<%- include('./partials/header.ejs') %>
+	<style>
+		.card {
+			width: 45rem;
+			border: none;
+			border-radius: 10px;
+			background-color: #fff
+		}
+		
+		.stats {
+			background: #f2f5f8 !important;
+			color: #000 !important
+		}
+		
+		.key {
+			color: #a1aab9
+		}
+		
+		.value {
+			font-weight: 500
+		}
+
+		a{
+			text-decoration: none;
+			display: inline;
+			color: #a1aab9;
+		}
+		
+	</style>
+	<div class="container mt-5 d-flex justify-content-center">
+		<div class="card p-5">
+			<div class=" align-items-center">
+				<center>
+					<% if(socialUser.profilePic !== "") { %> 
+						<div class="image" style="margin: 1rem;"> <img src="/documents/<%= socialUser.profilePic %>" class="rounded" width="300"> </div>
+					<% } else { %>
+						<div class="image" style="margin: 1rem;"> <img src="/images/empty_profile_pic.png" class="rounded" width="300"> </div>
+					<% } %> 
+				</center>
+				<br>
+				<div class="ml-3 w-100">
+					<h4 class="mb-0 mt-0"><%= socialUser.name %></h4>
+					<h5><%= socialUser.email %></h5>
+					<br><br>
+					<div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+						<div class="d-flex flex-column"> <h4 class="key">Total Posts</h4> <span class="value"><%= resources %> </span> </div>
+						<div class="d-flex flex-column"> <h4 class="key">Helped People</h4> <span class="value"><%= likes %></span> </div>
+					</div>
+					<br>
+					<br>
+					<center>
+						<div class="row">
+							<% if(socialUser.tiktok != "") { %>
+								<div class="col-4">
+									<a href="https://www.tiktok.com/@<%= socialUser.tiktok %>">
+										<i class="fab fa-tiktok"></i>
+									</a>
+								</div>
+							<% } %>
+							<% if(socialUser.instagram != "") { %>
+								<div class="col-4">
+									<a href="https://www.instagram.com/<%= socialUser.instagram %>">
+										<i class="fab fa-instagram"></i>
+									</a>
+								</div>
+							<% } %>
+							<% if(socialUser.facebook != "") { %>
+								<div class="col-4">
+									<a href="https://www.facebook.com/<%= socialUser.facebook %>">
+										<i class="fab fa-facebook"></i>
+									</a>
+								</div>
+							<% } %>
+						</div>
+					</center>
+				</div>
+			</div>
+		</div>
+	</div>
+<%- include('./partials/footer.ejs') %>

@@ -1,0 +1,92 @@
+<%- include('./partials/header.ejs') %>
+<div class="overlay"></div>
+    <main class="main-wrapper active">
+		<section class="signin-section">
+			<div class="container-fluid">
+				<div class="title-wrapper pt-30">
+					<div class="row align-items-center">
+						<div class="col-md-12">
+							<div class="title mb-30">
+								<center><h2>Add a Resource</h2></center>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row g-0 auth-row">
+					<div class="col-lg-6">
+						<div class="auth-cover-wrapper bg-primary-100">
+							<div class="auth-cover">
+								<div class="title text-center">
+									<h1 class="text-primary mb-10">Resources</h1>
+									<p class="text-medium">
+										Please add a resource details.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="signin-wrapper">
+							<div class="form-wrapper">
+								<form class="user" action="/centers/id=<%=centers.id%>/resources" method='POST'>
+									<div class="row">
+										<div class="col-12">
+											<div class="form-check">
+												<input class="form-check-input" type ="radio" id ="type1" name ="type" value ="bed" checked onclick="ShowHideDiv()">
+												<label class="form-check-label" for="flexRadioDefault1">
+													Bed
+												</label>
+											</div>
+											<div class="form-check">
+												<input class="form-check-input" type ="radio" id ="type2" name ="type" value ="vaccine" onclick="ShowHideDiv()">
+												<label class="form-check-label" for="flexRadioDefault1">
+													Vaccine
+												</label>
+											</div>
+											<div class="form-check">
+												<input class="form-check-input" type ="radio" id ="type3" name ="type" value ="oxygen" onclick="ShowHideDiv()">
+												<label class="form-check-label" for="flexRadioDefault1">
+													Oxygen
+												</label>
+											</div>
+											<div class="form-check">
+												<input class="form-check-input" type ="radio" id ="add" name ="type" onclick="ShowHideDiv()">
+												<label class="form-check-label" for="flexRadioDefault1">
+													Add new type
+												</label>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="input-style-1">
+												<label for ="name"> New Type</label>
+												<input class="form-control form-control-user" id="addnewtype"  name="type"/>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="input-style-1">
+												<label for ="name"> Name</label>
+												<input type ="text" class="form-control form-control-user" id ="name" name ="name"  required><br><br>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="input-style-1">
+												<label for ="qty"> Quantity</label>
+												<input type ="number" class="form-control form-control-user" id ="qty" name ="qty" min = 0 required><br><br><br>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="button-group d-flex justify-content-center flex-wrap">
+												<button type="submit" class="main-btn primary-btn btn-hover w-100 text-center">Add</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+</div>
+<%- include('./partials/footer.ejs') %>

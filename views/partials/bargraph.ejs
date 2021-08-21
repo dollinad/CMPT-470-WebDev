@@ -1,0 +1,79 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<div class="chart-container">
+    <canvas id="myChart"></canvas>
+    <p>Updated data from:https://opencovid.ca/</p>
+</div>
+
+<script>
+    var ctx = document.getElementById('myChart');
+    var data = []
+    var label = [] 
+    "<% data.forEach(function(d) { %>"
+    data.push(parseInt("<%=d%>"))
+    "<% }) %>"
+
+    "<% label.forEach(function(l) { %>"
+    label.push("<%=l%>")
+    "<% }) %>"
+
+    var myChart = new Chart(ctx, {
+        type: "<%=chart%>",
+        data: {
+            labels: label,
+            datasets: [{
+                label: "<%=graphTitle%>",
+                data: data,
+                backgroundColor: [
+                    'rgb(106, 90, 205)',
+                    'rgb(238, 130, 238)',
+                ],
+                borderColor: [
+                    'rgb(106, 90, 205)',
+                    'rgb(238, 130, 238)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        plugins: [ChartDataLabels],
+        options: {
+            scales:{
+                x:{
+                    display: true,
+                    grid:{
+                        display:false
+                    },
+                    padding: {top: 20, left: 0, right: 0, bottom: 0}
+                },
+                y:{
+                    display: true,
+                    grid:{
+                        display:false
+                    },
+                    padding: {top: 20, left: 0, right: 0, bottom: 0}
+                }
+            },
+            animation: {
+                duration: 3000,
+                easing: 'linear',
+            },
+            plugins:{
+                legend:{
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    text: "<%=graphTitle%>",
+                },
+                datalabels: {
+                    align: 'end',
+                    anchor: 'end',        
+                    borderRadius: 4,
+                    color: 'black',
+                    formatter: Math.round
+                }
+            }
+        }
+    });
+    </script>

@@ -1,0 +1,41 @@
+<%- include('./partials/header.ejs') %>
+<br>
+    <main class="main-wrapper active">
+        <div class="container">
+            <div class="jumbotron">
+                <h1 class="display-4">Fight Against COVID</h1><br>
+                <p class="lead">From the Public, For the Public</p><br>
+                <p >For those seeking health care supplies and hospitalization, we are constantly updating and listing.
+                <hr class="my-4">
+                <center>
+                    <h2>How can we help?</h2><br>
+                    <p class="lead">
+                        <% if(user.verifiedUser === true) { %>
+                                <a href="/centers" class="main-btn primary-btn-outline rounded-full btn-hover">Centers</a>   
+                        <% } %> 
+                        <a href="/nearme" class="main-btn primary-btn-outline rounded-full btn-hover">Resources Near Me</a>
+                        <a href="/discussion_board" class="main-btn primary-btn-outline rounded-full btn-hover">Visit the forum</a>
+                        <a href="/centers/map" class="main-btn primary-btn-outline rounded-full btn-hover">Find Resources by Map</a>
+                        <a href="/stats" class="main-btn primary-btn-outline rounded-full btn-hover">COVID-19 Stats</a>
+                    </p>
+                </center>
+            </div>
+        </div>
+        <br><br><br><br><br>
+        <div class = "container">
+            <center>
+            <% if(topUser.length >0) { %>
+                <h2>Here is our Top <%= topUser.length %> Contributors</h2><br>
+                <ol>
+                <% topUser.forEach(function(user){ %>
+                    <a href="/user/profile/<%=user%>"><li><%=user%></li></a>
+                <% }) %>  
+                </ol>
+            <% } else { %>
+                <h2> No users supported yet! Please give support to our Users</h2>
+            <% } %> 
+            </center>
+            <hr class="my-4">
+        </div>
+    </main><br><br>
+<%- include('./partials/footer.ejs') %>

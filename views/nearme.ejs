@@ -1,0 +1,98 @@
+<%- include('./partials/header.ejs') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<main class="main-wrapper active">
+    <center>
+        <br>
+        <h3>Find Resources Near me</h3><br>
+        <form action="/nearMe" method='POST'>
+            <div class="input-group mb-3">
+                <input type="text" class="large" id="address" name="address" required placeholder=<%= userAddr%>>
+            </div>
+            <div class="button-group d-flex justify-content-center flex-wrap">
+                <button type="submit" class="main-btn primary-btn-outline rounded-full btn-hover">Change Address</button>
+            </div>
+        </form>
+        <script>
+            if(navigator.geolocation)
+            {
+                navigator.geolocation.getCurrentPosition(function(position)
+                {
+                    var geocoder = new google.maps.Geocoder()
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+                    let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyD-PLoOho9H7PV3R7vtsAWA4aarqfkDzeQ`
+                    fetch(url).then(response => response.json())
+                    .then(data => {
+                        let address = document.getElementById('address')
+                        address.value = data.results[0].formatted_address
+                    })
+                })
+            }
+        </script>
+        <br></br>
+
+        <% if (userAddr != "") { %>
+            <h5>Filter resource by type:</h5><br>
+            <a href="/nearMe/testing" class="main-btn primary-btn-outline rounded-full btn-hover btn-sm">Oxygen</a>
+            <a href="/nearMe/vaccine" class="main-btn primary-btn-outline rounded-full btn-hover btn-sm">Vaccine</a>
+            <a href="/nearMe/hospital" class="main-btn primary-btn-outline rounded-full btn-hover btn-sm">Bed</a>
+            <a href="/nearMe" class="main-btn primary-btn-outline rounded-full btn-hover  btn-sm">Show All Resources</a>
+            <br></br>
+            <table class="table container">
+                <thead>
+                    <tr>
+                        <th><h6>Resource Type</h6></th>
+                        <th><h6>Name</h6></th>
+                        <th><h6>Quantity</h6></th>
+                        <th><h6>Distance Away (km)</h6></th>
+                        <th><h6>Likes</h6></th>
+                        <th><h6>Located at</h6></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% Resource.forEach(function(r) {  %>
+                        <tr>
+                            <td class="min-width">
+                                <div class="lead-text">
+                                    <p><%= r.type%></p>
+                                </div>
+                            </td>
+                            <td class="min-width">
+                                <div class="lead-text">
+                                    <p><%= r.name%></p>
+                                </div>
+                            </td>
+                            <td class="min-width">
+                                <div class="lead-text">
+                                    <p><%= r.qty%></p>
+                                </div>
+                            </td>
+                            <td class="min-width">
+                                <div class="lead-text">
+                                    <p><%= r.dist_away%></p>
+                                </div>
+                            </td> 
+                            <td class="min-width">
+                                <div class="lead-text">
+                                    <p><%= r.likes%></p>
+                                </div>
+                            </td>   
+                            <td class="min-width">
+                                <div class="lead-text">
+                                    <p>
+                                        <a style="color:rgb(45, 158, 250)" href="/centers/view?id=<%= r.center_id%>" role="button"><%= r.center_name%></a>
+                                    </p>
+                                </div>
+                            </td>                         
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+
+        <% } else { %>
+            <h5>No address set</h5>
+        <% } %>
+    </center>
+</main>
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<%- include('./partials/footer.ejs') %>

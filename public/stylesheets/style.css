@@ -1,0 +1,97 @@
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+span:before{
+  content:" "; 
+  display:inline-block; 
+  width:32px;
+}
+
+form{
+  display: inline-block;
+}
+
+#map {
+  height: 80%;
+}
+
+input{
+  width: 100%;
+}
+
+.shoutout-container{
+  width: max-content;
+  margin: auto;
+}
+
+.chart-form{
+  width: max-content;
+  margin: start;
+}
+
+.chart-container{
+  margin: start;
+  position: relative;
+  height: 50em;
+  width: 100em;
+}
+
+.chart-wrapper{
+  width: max-content;
+  margin: auto;
+}
+
+label{
+  font-size: large;
+}
+select {
+  color: dodgerblue;
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  font-size: large;
+  font-weight: bold;
+}
+
+select option:checked{
+  color: dodgerblue;
+  font-weight: bold;
+}
+
+select option:not(:checked){
+  color: black;
+}
+
+.inline{
+  display: inline-block;
+}
+
+.form-group .radio{
+    font-size: large;
+    font-weight: bold;
+    margin: 1px 1em;
+}
+
+.radio input[type='radio']{
+  margin-right: 0.5em;
+  vertical-align: middle;
+  width: auto;
+  display: inline-block;
+}
+
+input:checked + label{
+  color:dodgerblue;
+}
+
+.large {
+  width: 40rem;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+

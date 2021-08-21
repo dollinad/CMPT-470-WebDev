@@ -1,0 +1,63 @@
+<%- include('./partials/header.ejs') %>
+<br>
+    <main class="main-wrapper active">
+		<div class ="chart-wrapper">
+			<div class ="container">
+				<h2>Current Statistics</h2>
+				<form action="/stats" method="POST">
+					<label for="province">Province</label>
+					<select name="province" id="province"></select>
+					<div id = "stat-form" class = "form-group">
+						<label for = "stats">Statistics</label>
+					</div><br>
+					<button type="submit" class="main-btn primary-btn-outline rounded-full btn-hover">Filter</button>
+				</form>
+			</div>
+			<br>
+			<% if(chart == "bar") { %>
+				<%- include('./partials/bargraph.ejs') %>
+			<% } else { %> 
+				<%- include('./partials/linegraph.ejs') %>
+			<% } %> 
+		</div>
+		<script>
+			var formgroup = document.getElementById('stat-form')
+			var stats_arry =[ 'cases','mortality','recovered','testing','available vaccine']
+			
+			stats_arry.forEach(element => {
+				var container = document.createElement('div')
+				container.className ="radio inline"
+				var inputValue = document.createElement('input')
+				inputValue.type = 'radio'
+				inputValue.value= element
+				inputValue.id = element
+				inputValue.name ="stats"
+				inputValue.required = true
+				var labelValue = document.createElement('label')
+				labelValue.innerHTML = element
+				labelValue.htmlFor = element
+				"<% if(stats != 'none') { %>"
+				if("<%=stats%>"== element){
+					inputValue.checked = true
+				}
+				"<% } %>"
+				container.appendChild(inputValue)
+				container.appendChild(labelValue)
+				formgroup.appendChild(container)
+
+			})
+
+			var prov_dropdown =document.getElementById("province")
+			var prov_arry = ['Alberta','BC','Manitoba','New Brunswick','NL','Nova Scotia','Nunavut','NWT','Ontario','PEI','Quebec','Repatriated','Saskatchewan','Yukon']
+			prov_arry.forEach(element => {
+				var option = document.createElement("option");
+				option.value = element;
+				option.text = element;
+				if("<%=prov%>"== element){
+					option.selected = true
+				}
+				prov_dropdown.appendChild(option)
+			})
+		</script>
+	</main>
+<%- include('./partials/footer.ejs') %>

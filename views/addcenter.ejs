@@ -1,0 +1,128 @@
+<%- include('./partials/header.ejs') %>
+<div class="overlay"></div>
+    <main class="main-wrapper active">
+		<section class="signin-section">
+			<div class="container-fluid">
+				<div class="title-wrapper pt-30">
+					<div class="row align-items-center">
+						<div class="col-md-12">
+							<div class="title mb-30">
+								<center><h2>Add a Center</h2></center>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row g-0 auth-row">
+					<div class="col-lg-6">
+						<div class="auth-cover-wrapper bg-primary-100">
+							<div class="auth-cover">
+								<div class="title text-center">
+									<h1 class="text-primary mb-10">Centers</h1>
+									<p class="text-medium">
+										Please add a center when the resource is
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="signin-wrapper">
+							<div class="form-wrapper">
+								<form class="user" action="/centers/add" method='POST'>
+									<div class="row">
+										<div class="col-12">
+											<div class="input-style-1">
+												<label for ="site"> Site</label>
+												<input type ="text" class="form-control form-control-user" id ="site" name ="site" required autocomplete="off">
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="input-style-1">
+												<label for ="address"> Address</label>
+												<input type ="text" id ="address" name ="address" required autocomplete="off">
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="input-style-1">
+												<label for ="city"> City</label>
+												<input type ="text" id ="city" name ="city" required><br>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="input-style-1">
+												<label for ="region"> Prov/State</label>
+												<input type ="text" id ="region" name ="region" required><br>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="input-style-1">
+												<label for ="country"> Country</label>
+												<input type ="text" id ="country" name ="country" required><br><br><br>
+											</div>
+										</div>
+										<div class="col-12">
+											<div class="button-group d-flex justify-content-center flex-wrap">
+												<button type="submit" class="main-btn primary-btn btn-hover w-100 text-center">Add</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+</div>
+
+<script>
+  function initAutocomplete() {
+    var sitefield = document.getElementById("site");
+    autocomplete = new google.maps.places.Autocomplete(sitefield, {
+      componentRestrictions: { country: ["us", "ca"] },
+      fields: ["address_components","name"],
+      types: ["establishment"],
+      });
+      autocomplete.addListener("place_changed", fillInAddress);
+    }
+
+  function fillInAddress(){
+    var sitefield = document.getElementById("site");
+    var addressfield = document.getElementById("address");
+    let address = ""
+    const place = autocomplete.getPlace();
+    for (const component of place.address_components) {
+      const componentType = component.types[0];
+      switch (componentType) {
+        case "street_number": {
+        address = `${component.long_name} ${address}`;
+        break;
+        }
+        case "route": {
+        address += component.short_name;
+        break;
+        }
+        case "locality": {
+          document.querySelector("#city").value = component.long_name;
+          break;
+        }
+        case "administrative_area_level_1": {
+          document.querySelector("#region").value = component.long_name;
+        break;
+        }
+        case "country":
+        document.querySelector("#country").value = component.long_name;
+          break;
+        }
+      }
+      sitefield.value = place.name
+      addressfield.value = address
+  }
+</script>
+
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1GdVQWj2IRCBpn2rXujLdvGOSV4b6w6M&callback=initAutocomplete&libraries=places&v=weekly"
+      async
+    ></script>
+<%- include('./partials/footer.ejs') %>

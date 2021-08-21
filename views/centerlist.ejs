@@ -1,0 +1,174 @@
+<%- include('./partials/header.ejs') %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <main class="main-wrapper active">
+        <center>
+            <br>
+            <h3>Centers</h3><br>
+            <button id ="locate-btn" class="main-btn primary-btn-outline rounded-full btn-hover"> Use Current Location</button><br><br>
+            <form id="distform" action ="/centers" method='POST'>
+                <div class="input-group mb-3">
+                    <input type ="text" class="large" id ="address" name ="address" placeholder="Location goes here" required autocomplete="off" required>
+                </div>
+                <div class="col-3 select-style-1">
+                    <div class="select-position">
+                        <label>Within Radius</label>
+                        <select name = "distance" id ="dist-select"></select>
+                    </div>
+                </div>
+                <div class="button-group d-flex justify-content-center flex-wrap">
+                    <button type="submit" class="main-btn primary-btn-outline rounded-full btn-hover">Filter</button>
+                </div>
+            </form>
+            <br></br>
+                <a href="/centers/add" class="main-btn primary-btn-outline rounded-full btn-hover btn-sm">Add Center</a>
+                <a href="/centers/map" class="main-btn primary-btn-outline rounded-full btn-hover btn-sm">Show Map</a>
+            <table class="table container">
+                <thead>
+                    <tr>
+                        <th><h6>ID</h6></th>
+                        <th><h6>Name</h6></th>
+                        <th><h6>Address</h6></th>
+                        <th><h6>CreatedAt</h6></th>
+                        <th><h6>Distance</h6></th>
+                        <th><h6>Likes</h6></th>
+                        <th><h6>Actions</h6></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% centers.forEach(function(r) {  %>
+                        <tr>
+                            <td class="min-width">
+                                <div class="lead-text">
+                                    <p><%= r.id%></p>
+                                </div>
+                            </td>
+                            <td class="min-width">
+                                <div class="lead-text">
+                                    <p>
+                                        <a href="/centers/view?id=<%= r._id %>" role="button"><u><%= r.site%></u></a>
+                                    </p>
+                                </div>
+                            </td>
+                            <td class="min-width">
+                                <div class="lead-text">
+                                    <p><%= r.location.formattedAddress%></p>
+                                </div>
+                            </td>
+                            <td class="min-width">
+                                <div class="lead-text">
+                                    <p><%= new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: '2-digit'}).format(r.createdAt) %></p>
+                                </div>
+                            </td>
+                            <% if(typeof(r.dist) != "undefined") { %> 
+                                <td class="min-width">
+                                    <div class="lead-text">
+                                        <p><%= (r.dist.calculated/1000).toFixed(2) %> km</p>
+                                    </div>
+                                </td>
+                            <% } else { %>
+                                <td class="min-width">
+                                    <div class="lead-text">
+                                        <p>N/A</p>
+                                    </div>
+                                </td>
+                            <% }%>
+                            <td class="min-width">
+                                <div class="lead-text">
+                                    <p><%=r.likes.length %></p>
+                                </div>
+                            </td>
+                            <td>
+                                <a class = "main-btn primary-btn-outline rounded-full btn-hover btn-sm add" href = "/centers/id=<%=r.id%>/resources">Add Resource</a><br><br> 
+                                <% if (r.user == user.username) { %>
+                                    <a class = "main-btn primary-btn-outline rounded-full btn-hover btn-sm delete" href="" id=<%=r.id%>>Delete Center</a><br><br>
+                                <% } %>
+                            </td>
+                        </tr> 
+                    <% }); %>
+                </tbody>
+            </table>
+        </center>
+    </main>
+    <script>
+        var dist_array = [5,10,15,25,50,100]
+        var dist_select = document.getElementById("dist-select")
+        var option = document.createElement('option');
+        option.value = 'All'
+        option.text = 'All';
+        if("<%=distance%>"== 'All')
+        {
+            option.selected = true
+        }
+        dist_select.appendChild(option)
+    
+        dist_array.forEach(element =>
+        {
+            var option = document.createElement('option');
+            option.value = element
+            option.text = element + ' km';
+            if("<%=distance%>"== element)
+            {
+                option.selected = true
+            }
+            dist_select.appendChild(option)
+        })
+
+        $('#locate-btn').on('click',function()
+        {
+            if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(function(position)
+            {
+                var geocoder = new google.maps.Geocoder()
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+                let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyD-PLoOho9H7PV3R7vtsAWA4aarqfkDzeQ`
+                fetch(url).then(response => response.json())
+                .then(data => {
+                    let address = document.getElementById('address')
+                    address.value = data.results[0].formatted_address 
+                }) 
+            })
+            } 
+        })
+
+        $('a.delete').on('click',function(){
+            if(confirm("Are you sure you want to delete?"))
+            {
+                var id = $(this).attr("id")
+                $.ajax({
+                    method: 'delete',
+                    url: '/centers/'+id,
+                    data: {id:id},
+                    success: function(data)
+                    {
+                        window.alert(data)
+                        window.location.reload();
+                    }
+                })
+            }
+        })
+        if("<%=address%>" !== 'undefined')
+        {
+            var address = document.getElementById('address')
+            address.value = "<%=address%>"
+        }
+        else{
+            if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(function(position)
+            {
+                var geocoder = new google.maps.Geocoder()
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+                let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyD-PLoOho9H7PV3R7vtsAWA4aarqfkDzeQ`
+                fetch(url).then(response => response.json())
+                .then(data => {
+                    let address = document.getElementById('address')
+                    address.value = data.results[0].formatted_address 
+                }) 
+            })
+            }
+        }
+        
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<%- include('./partials/footer.ejs') %>
